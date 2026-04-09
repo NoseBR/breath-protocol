@@ -10,7 +10,6 @@ interface AuthContextValue {
   loading: boolean;
   walletAddress: string | null;
   signInWithGoogle: () => Promise<void>;
-  signInWithApple: () => Promise<void>;
   signInWithWallet: (address: string, signature: string, message: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -21,7 +20,6 @@ const AuthContext = createContext<AuthContextValue>({
   loading: true,
   walletAddress: null,
   signInWithGoogle: async () => {},
-  signInWithApple: async () => {},
   signInWithWallet: async () => {},
   signOut: async () => {},
 });
@@ -67,16 +65,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`,
-      },
-    });
-  }, []);
-
-  const signInWithApple = useCallback(async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "apple",
-      options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: `${window.location.origin}/dashboard`,
       },
     });
   }, []);
@@ -130,7 +119,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         loading,
         walletAddress,
         signInWithGoogle,
-        signInWithApple,
         signInWithWallet,
         signOut,
       }}
