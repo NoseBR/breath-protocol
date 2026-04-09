@@ -50,7 +50,7 @@ export default function TopBar({ onMenuToggle, pageTitle = "Home" }: TopBarProps
           {/* QR code — launches BreathKYC with auth token */}
           <button
             onClick={launchKYC}
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-text-tertiary hover:bg-badge-violet-bg hover:text-vital-violet transition-all duration-200 hidden sm:flex"
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-text-tertiary hover:bg-badge-violet-bg hover:text-vital-violet transition-all duration-200"
             title="Open BreathKYC App"
           >
             <QrCode className="w-[18px] h-[18px]" strokeWidth={1.8} />

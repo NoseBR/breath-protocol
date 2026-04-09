@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import {
   Fingerprint,
   Wallet,
@@ -9,6 +10,7 @@ import {
   Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 const steps = [
   {
@@ -44,6 +46,14 @@ const steps = [
 
 export default function GettingStarted() {
   const completedCount = 0;
+
+  const launchKYC = useCallback(async () => {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (token) {
+      window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
+    }
+  }, []);
 
   return (
     <div
@@ -85,6 +95,7 @@ export default function GettingStarted() {
           return (
             <button
               key={step.title}
+              onClick={step.title === "Prove your Identity" ? launchKYC : undefined}
               className="w-full flex items-center gap-4 p-3.5 rounded-2xl bg-surface border border-border hover:border-vital-violet/20 hover:shadow-md hover:shadow-vital-violet/5 transition-all duration-300 group hover:-translate-y-px"
             >
               {/* Icon */}

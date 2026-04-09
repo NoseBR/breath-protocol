@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
 
 const slides = [
   {
@@ -30,6 +31,14 @@ export default function PromoCarousel() {
 
   const prev = () => setActive((i) => (i === 0 ? slides.length - 1 : i - 1));
   const next = () => setActive((i) => (i === slides.length - 1 ? 0 : i + 1));
+
+  const launchKYC = useCallback(async () => {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (token) {
+      window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
+    }
+  }, []);
 
   return (
     <div
@@ -79,7 +88,10 @@ export default function PromoCarousel() {
         <p className="text-[13.5px] text-white/50 max-w-sm leading-relaxed mb-5">
           {slides[active].description}
         </p>
-        <button className="px-5 py-2.5 bg-white/95 text-dark-surface text-[13px] font-semibold rounded-xl hover:bg-white transition-all duration-300 shadow-lg shadow-black/15 hover:-translate-y-px active:translate-y-0 backdrop-blur-sm border border-white/20">
+        <button
+          onClick={slides[active].cta === "Get Proof" || slides[active].cta === "Start Earning" ? launchKYC : undefined}
+          className="px-5 py-2.5 bg-white/95 text-dark-surface text-[13px] font-semibold rounded-xl hover:bg-white transition-all duration-300 shadow-lg shadow-black/15 hover:-translate-y-px active:translate-y-0 backdrop-blur-sm border border-white/20"
+        >
           {slides[active].cta}
         </button>
       </div>
