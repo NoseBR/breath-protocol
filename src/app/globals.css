@@ -1,26 +1,312 @@
 @import "tailwindcss";
 
+/* ── Themeable CSS Variables ─────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary */
+  --th-vital-violet: #7B2FBE;
+  --th-breath-lavender: #C4A1FF;
+  --th-breath-lavender-light: rgba(196, 161, 255, 0.12);
+  --th-breath-lavender-glass: rgba(196, 161, 255, 0.08);
+
+  /* Secondary */
+  --th-thermal-cyan: #00D4AA;
+  --th-thermal-cyan-light: rgba(0, 212, 170, 0.12);
+  --th-signal-rose: #FF6B9D;
+  --th-signal-rose-light: rgba(255, 107, 157, 0.1);
+
+  /* Neutrals */
+  --th-proof-white: #F8F5FF;
+  --th-surface: #FDFCFF;
+  --th-surface-hover: #F5F2FC;
+  --th-dark-surface: #0D0A14;
+  --th-border: #E2DCF0;
+  --th-border-subtle: #EDE9F6;
+
+  /* Text */
+  --th-text-primary: #1A1225;
+  --th-text-secondary: #6B5F7E;
+  --th-text-tertiary: #9B91AD;
+  --th-text-inverse: #F8F5FF;
+
+  /* Badges */
+  --th-badge-violet-bg: rgba(123, 47, 190, 0.08);
+  --th-badge-violet-text: #7B2FBE;
+  --th-badge-cyan-bg: rgba(0, 212, 170, 0.1);
+  --th-badge-cyan-text: #059669;
+  --th-badge-rose-bg: rgba(255, 107, 157, 0.1);
+  --th-badge-rose-text: #be185d;
+  --th-badge-neutral-bg: #EDEAF4;
+  --th-badge-neutral-text: #6B5F7E;
+  --th-badge-yellow-bg: #fef9e7;
+  --th-badge-yellow-text: #a16207;
 }
 
+/* ── Dark Mode Overrides ─────────────────────── */
+html.dark {
+  --th-proof-white: #0D0A14;
+  --th-surface: #141020;
+  --th-surface-hover: #1C1630;
+  --th-dark-surface: #0D0A14;
+  --th-border: #2A2240;
+  --th-border-subtle: #1E1832;
+
+  --th-text-primary: #F0ECF7;
+  --th-text-secondary: #A99BBF;
+  --th-text-tertiary: #6B5F7E;
+  --th-text-inverse: #1A1225;
+
+  --th-badge-violet-bg: rgba(123, 47, 190, 0.18);
+  --th-badge-violet-text: #C4A1FF;
+  --th-badge-cyan-bg: rgba(0, 212, 170, 0.15);
+  --th-badge-cyan-text: #00D4AA;
+  --th-badge-rose-bg: rgba(255, 107, 157, 0.15);
+  --th-badge-rose-text: #FF6B9D;
+  --th-badge-neutral-bg: #1E1832;
+  --th-badge-neutral-text: #A99BBF;
+  --th-badge-yellow-bg: rgba(161, 98, 7, 0.15);
+  --th-badge-yellow-text: #EAB308;
+}
+
+/* ── Tailwind Theme — references CSS vars ────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-vital-violet: var(--th-vital-violet);
+  --color-breath-lavender: var(--th-breath-lavender);
+  --color-breath-lavender-light: var(--th-breath-lavender-light);
+  --color-breath-lavender-glass: var(--th-breath-lavender-glass);
+
+  --color-thermal-cyan: var(--th-thermal-cyan);
+  --color-thermal-cyan-light: var(--th-thermal-cyan-light);
+  --color-signal-rose: var(--th-signal-rose);
+  --color-signal-rose-light: var(--th-signal-rose-light);
+
+  --color-proof-white: var(--th-proof-white);
+  --color-surface: var(--th-surface);
+  --color-surface-hover: var(--th-surface-hover);
+  --color-dark-surface: var(--th-dark-surface);
+  --color-border: var(--th-border);
+  --color-border-subtle: var(--th-border-subtle);
+
+  --color-text-primary: var(--th-text-primary);
+  --color-text-secondary: var(--th-text-secondary);
+  --color-text-tertiary: var(--th-text-tertiary);
+  --color-text-inverse: var(--th-text-inverse);
+
+  --color-badge-violet-bg: var(--th-badge-violet-bg);
+  --color-badge-violet-text: var(--th-badge-violet-text);
+  --color-badge-cyan-bg: var(--th-badge-cyan-bg);
+  --color-badge-cyan-text: var(--th-badge-cyan-text);
+  --color-badge-rose-bg: var(--th-badge-rose-bg);
+  --color-badge-rose-text: var(--th-badge-rose-text);
+  --color-badge-neutral-bg: var(--th-badge-neutral-bg);
+  --color-badge-neutral-text: var(--th-badge-neutral-text);
+  --color-badge-yellow-bg: var(--th-badge-yellow-bg);
+  --color-badge-yellow-text: var(--th-badge-yellow-text);
+
+  /* Typography — not themeable, keep static */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background: var(--th-proof-white);
+  color: var(--th-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Grain overlay ───────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* ── Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--th-border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--th-text-tertiary);
+}
+
+/* ── Animations ──────────────────────────────── */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes iridescent {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ringPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(123, 47, 190, 0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(123, 47, 190, 0); }
+}
+
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-6px) rotate(2deg); }
+  66% { transform: translateY(3px) rotate(-1deg); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes gradientShift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(15deg); }
+}
+
+.animate-breathe {
+  animation: breathe 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.animate-ring-pulse {
+  animation: ringPulse 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-float-orb {
+  animation: floatOrb 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-iridescent {
+  background-size: 200% 200%;
+  animation: iridescent 4s ease infinite;
+}
+
+/* Staggered children animations */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
+
+/* ── Signature Brand Elements ────────────────── */
+
+/* Iridescent gradient — the brand's hero visual */
+.gradient-iridescent {
+  background: linear-gradient(135deg, #7B2FBE 0%, #00D4AA 50%, #FF6B9D 100%);
+}
+
+.gradient-iridescent-animated {
+  background: linear-gradient(135deg, #7B2FBE 0%, #00D4AA 33%, #FF6B9D 66%, #7B2FBE 100%);
+  background-size: 200% 200%;
+  animation: iridescent 4s ease infinite;
+}
+
+.border-iridescent {
+  border-image: linear-gradient(135deg, #7B2FBE, #00D4AA, #FF6B9D) 1;
+}
+
+.text-gradient-iridescent {
+  background: linear-gradient(135deg, #7B2FBE, #00D4AA, #FF6B9D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: rgba(253, 252, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(226, 220, 240, 0.5);
+}
+
+html.dark .glass-card {
+  background: rgba(20, 16, 32, 0.72);
+  border: 1px solid rgba(42, 34, 64, 0.5);
+}
+
+/* ── Utility ─────────────────────────────────── */
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
