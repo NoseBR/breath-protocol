@@ -2,7 +2,6 @@
 
 import { ChevronLeft, ChevronRight, Award } from "lucide-react";
 import { useRef } from "react";
-import { useAuth } from "@/components/auth/AuthProvider";
 
 const credentials = [
   {
@@ -48,15 +47,7 @@ const credentials = [
 ];
 
 export default function CredentialCards() {
-  const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const launchKYC = () => {
-    const token = session?.access_token;
-    if (token) {
-      window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
-    }
-  };
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
@@ -133,10 +124,7 @@ export default function CredentialCards() {
             </p>
 
             {/* CTA */}
-            <button
-              onClick={launchKYC}
-              className="w-full py-2 px-4 rounded-xl text-[12.5px] font-semibold border border-border text-vital-violet bg-transparent hover:bg-vital-violet hover:text-white hover:border-vital-violet hover:-translate-y-px hover:shadow-lg hover:shadow-vital-violet/20 active:translate-y-0 transition-all duration-300 cursor-pointer"
-            >
+            <button className="w-full py-2 px-4 rounded-xl text-[12.5px] font-semibold border border-border text-vital-violet bg-transparent hover:bg-vital-violet hover:text-white hover:border-vital-violet hover:-translate-y-px hover:shadow-lg hover:shadow-vital-violet/20 active:translate-y-0 transition-all duration-300 cursor-pointer">
               Get Proof
             </button>
           </div>

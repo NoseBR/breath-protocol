@@ -3,7 +3,6 @@
 import { Award } from "lucide-react";
 import type { Credential } from "./credentialsData";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/components/auth/AuthProvider";
 
 const badgeColors: Record<string, { bg: string; text: string }> = {
   Membership: { bg: "bg-badge-violet-bg", text: "text-badge-violet-text" },
@@ -12,15 +11,7 @@ const badgeColors: Record<string, { bg: string; text: string }> = {
 };
 
 export default function CredentialCard({ cred }: { cred: Credential }) {
-  const { session } = useAuth();
   const badge = badgeColors[cred.category] || badgeColors.Membership;
-
-  const launchKYC = () => {
-    const token = session?.access_token;
-    if (token) {
-      window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
-    }
-  };
 
   return (
     <div className="bg-surface border border-border rounded-2xl p-4 hover:border-vital-violet/20 hover:shadow-lg hover:shadow-vital-violet/5 transition-all duration-300 group hover:-translate-y-1 flex flex-col">
@@ -62,10 +53,7 @@ export default function CredentialCard({ cred }: { cred: Credential }) {
       </p>
 
       {/* CTA — subtle outlined, iridescent text */}
-      <button
-        onClick={launchKYC}
-        className="w-full mt-auto py-2 px-4 rounded-xl text-[12.5px] font-semibold border border-border text-vital-violet bg-transparent hover:bg-vital-violet hover:text-white hover:border-vital-violet hover:-translate-y-px hover:shadow-lg hover:shadow-vital-violet/20 active:translate-y-0 transition-all duration-300 cursor-pointer"
-      >
+      <button className="w-full mt-auto py-2 px-4 rounded-xl text-[12.5px] font-semibold border border-border text-vital-violet bg-transparent hover:bg-vital-violet hover:text-white hover:border-vital-violet hover:-translate-y-px hover:shadow-lg hover:shadow-vital-violet/20 active:translate-y-0 transition-all duration-300 cursor-pointer">
         Get Proof
       </button>
     </div>
