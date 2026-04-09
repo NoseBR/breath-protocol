@@ -71,7 +71,7 @@ export default function ProfilePopup({ open, onClose }: ProfilePopupProps) {
   const handleLogout = async () => {
     onClose();
     await signOut();
-    router.push("/login");
+    router.push("/");
   };
 
   return (
