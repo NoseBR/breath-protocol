@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { LayoutGrid, Search, QrCode, ChevronDown, Menu, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ProfilePopup from "@/components/layout/ProfilePopup";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { supabase } from "@/lib/supabase";
 
 interface CredentialsTopBarProps {
   onMenuToggle: () => void;
@@ -32,6 +33,14 @@ export default function CredentialsTopBar({
   onCategoryChange,
 }: CredentialsTopBarProps) {
   const [profileOpen, setProfileOpen] = useState(false);
+
+  const launchKYC = useCallback(async () => {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    if (token) {
+      window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
+    }
+  }, []);
   const { user } = useAuth();
 
   const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "PS";
@@ -57,16 +66,14 @@ export default function CredentialsTopBar({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* QR code — links to BreathKYC app */}
-            <a
-              href="https://breathkyc.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* QR code — launches BreathKYC with auth token */}
+            <button
+              onClick={launchKYC}
               className="w-9 h-9 rounded-xl flex items-center justify-center text-text-tertiary hover:bg-badge-violet-bg hover:text-vital-violet transition-all duration-200 hidden sm:flex"
               title="Open BreathKYC App"
             >
               <QrCode className="w-[18px] h-[18px]" strokeWidth={1.8} />
-            </a>
+            </button>
             <div className="w-px h-5 bg-border mx-1" />
             {/* Profile button */}
             <button
