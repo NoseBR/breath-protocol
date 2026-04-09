@@ -29,7 +29,7 @@ type ThemeOption = "light" | "dark" | "system";
 
 export default function ProfilePopup({ open, onClose }: ProfilePopupProps) {
   const { theme, setTheme } = useTheme();
-  const { user, signOut } = useAuth();
+  const { user, session, signOut } = useAuth();
   const popupRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -124,7 +124,16 @@ export default function ProfilePopup({ open, onClose }: ProfilePopupProps) {
           {/* Menu items */}
           <div className="p-3">
             {/* Verify Identity */}
-            <button className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-[13.5px] font-medium text-text-primary hover:bg-badge-violet-bg/50 transition-all duration-200 group">
+            <button
+              onClick={() => {
+                const token = session?.access_token;
+                if (token) {
+                  window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
+                  onClose();
+                }
+              }}
+              className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-[13.5px] font-medium text-text-primary hover:bg-badge-violet-bg/50 transition-all duration-200 group"
+            >
               <Fingerprint className="w-[18px] h-[18px] text-text-tertiary group-hover:text-vital-violet transition-colors" strokeWidth={1.8} />
               <span className="flex-1 text-left">Verify Identity</span>
               <ChevronRight className="w-4 h-4 text-text-tertiary/50" />

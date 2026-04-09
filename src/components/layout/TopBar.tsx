@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { LayoutGrid, QrCode, ChevronDown, Menu } from "lucide-react";
 import ProfilePopup from "./ProfilePopup";
 import { useAuth } from "@/components/auth/AuthProvider";
-import { supabase } from "@/lib/supabase";
 
 interface TopBarProps {
   onMenuToggle?: () => void;
@@ -13,15 +12,14 @@ interface TopBarProps {
 
 export default function TopBar({ onMenuToggle, pageTitle = "Home" }: TopBarProps) {
   const [profileOpen, setProfileOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
 
-  const launchKYC = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
+  const launchKYC = () => {
+    const token = session?.access_token;
     if (token) {
       window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
     }
-  }, []);
+  };
 
   const displayName = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split("@")[0] || "PS";
   const initials = displayName.slice(0, 2).toUpperCase();

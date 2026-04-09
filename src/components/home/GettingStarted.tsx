@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback } from "react";
 import {
   Fingerprint,
   Wallet,
@@ -10,7 +9,7 @@ import {
   Info,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const steps = [
   {
@@ -45,15 +44,15 @@ const steps = [
 ];
 
 export default function GettingStarted() {
+  const { session } = useAuth();
   const completedCount = 0;
 
-  const launchKYC = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
+  const launchKYC = () => {
+    const token = session?.access_token;
     if (token) {
       window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
     }
-  }, []);
+  };
 
   return (
     <div

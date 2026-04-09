@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const slides = [
   {
@@ -27,18 +27,18 @@ const slides = [
 ];
 
 export default function PromoCarousel() {
+  const { session } = useAuth();
   const [active, setActive] = useState(0);
 
   const prev = () => setActive((i) => (i === 0 ? slides.length - 1 : i - 1));
   const next = () => setActive((i) => (i === slides.length - 1 ? 0 : i + 1));
 
-  const launchKYC = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
+  const launchKYC = () => {
+    const token = session?.access_token;
     if (token) {
       window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
     }
-  }, []);
+  };
 
   return (
     <div

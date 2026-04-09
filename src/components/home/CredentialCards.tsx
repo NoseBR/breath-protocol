@@ -1,8 +1,8 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Award } from "lucide-react";
-import { useRef, useCallback } from "react";
-import { supabase } from "@/lib/supabase";
+import { useRef } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 const credentials = [
   {
@@ -48,15 +48,15 @@ const credentials = [
 ];
 
 export default function CredentialCards() {
+  const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const launchKYC = useCallback(async () => {
-    const { data } = await supabase.auth.getSession();
-    const token = data.session?.access_token;
+  const launchKYC = () => {
+    const token = session?.access_token;
     if (token) {
       window.open(`https://breathkyc.vercel.app/verify?token=${token}`, "_blank");
     }
-  }, []);
+  };
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
