@@ -1,12 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Wind } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import Sidebar from "@/components/layout/Sidebar";
 import CredentialsTopBar from "@/components/credentials/CredentialsTopBar";
 import CredentialGrid from "@/components/credentials/CredentialGrid";
 
 export default function CredentialsPage() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen bg-proof-white flex items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl gradient-iridescent-animated flex items-center justify-center shadow-2xl shadow-vital-violet/30">
+          <Wind className="w-6 h-6 text-white animate-breathe" />
+        </div>
+      </div>
+    );
+  }
   const [activeTab, setActiveTab] = useState<"all" | "verified" | "unverified">("all");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Wind } from "lucide-react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import Sidebar from "@/components/layout/Sidebar";
 import TopBar from "@/components/layout/TopBar";
 import WelcomeBanner from "@/components/home/WelcomeBanner";
@@ -16,7 +18,27 @@ import TokenWidget from "@/components/sidebar-widgets/TokenWidget";
 import HelpCenter from "@/components/sidebar-widgets/HelpCenter";
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking auth
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen bg-proof-white flex items-center justify-center">
+        <div className="w-12 h-12 rounded-2xl gradient-iridescent-animated flex items-center justify-center shadow-2xl shadow-vital-violet/30">
+          <Wind className="w-6 h-6 text-white animate-breathe" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-proof-white">
